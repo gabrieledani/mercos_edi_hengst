@@ -3,11 +3,21 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 import os
+import configparser
 
 def send_test_mail(filename):
-    body = "Arquivo de Pedido!"
-    sender_email = "gabriele.dani@modelovencedor.com.br"
-    receiver_email = "gabrieledani@gmail.com"
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    dir_edi = config['CAMINHO_EDI']['dir_edi']
+
+    body = 'Arquivo de Pedido!'
+    sender_email = config['E_MAIL']['sender_email']
+    receiver_email = config['E_MAIL']['receiver_email']
+    smtp = config['E_MAIL']['smtp']
+    porta = config['E_MAIL']['porta']
+    login = config['E_MAIL']['login']
+    senha = config['E_MAIL']['senha']
 
     msg = MIMEMultipart()
     msg['Subject'] = '[Pedido Vedafil]'
@@ -17,19 +27,16 @@ def send_test_mail(filename):
     msgText = MIMEText('<b>%s</b>' % (body), 'html')
     msg.attach(msgText)
 
-    dir_edi = os.getcwd()
-    dir_edi = os.path.join(dir_edi,'edi')
-
     fil = open(os.path.join(dir_edi,filename), "rb")
     part = MIMEApplication(fil.read(),Name=os.path.basename(filename))    
     part['Content-Disposition'] = 'attachment; filename="%s"' % os.path.basename(filename)
     msg.attach(part)
 
     try:
-        with smtplib.SMTP('mail.modelovencedor.com.br', 587) as smtpObj:
+        with smtplib.SMTP(smtp, porta) as smtpObj:
             smtpObj.ehlo()
             smtpObj.starttls()
-            smtpObj.login("gabriele.dani@modelovencedor.com.br", "Science@1984")
+            smtpObj.login(login, senha)
             smtpObj.sendmail(sender_email, receiver_email, msg.as_string())
             return 'success'
     except Exception as e:
