@@ -1,6 +1,7 @@
 import processa_file_pdf
 import os
 import configparser
+import mandaEmail
 
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -17,4 +18,7 @@ for file in os.listdir(dir_pdf):
 for file in os.listdir(dir_edi):
     if file.endswith(".dir"):
         print(file)
+        error = mandaEmail.send_test_mail(file)
+        if error == 'success':
+            os.rename(os.path.join(dir_edi,file) , os.path.join(dir_edi,file+'_ok'))
 

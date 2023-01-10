@@ -31,8 +31,11 @@ def send_test_mail(filename):
             smtpObj.starttls()
             smtpObj.login("gabriele.dani@modelovencedor.com.br", "Science@1984")
             smtpObj.sendmail(sender_email, receiver_email, msg.as_string())
+            return 'success'
     except Exception as e:
         print(e)
+        return e
+        
 
-filename = 'EXPORTA_PEDIDO_HENGST_SIGA BEM_1667.dir'
-send_test_mail(filename)
+#filename = 'EXPORTA_PEDIDO_HENGST_SIGA BEM_1667.dir'
+#send_test_mail(filename)
