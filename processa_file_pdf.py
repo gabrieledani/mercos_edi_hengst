@@ -25,10 +25,9 @@ def processa_file(filename,dir_edi,dir_pdf):
         for line in table:
             new_line = [x.replace('\n',' ') for x in line if x is not None]
 
-            if new_line[0].find('Orçamento') > 0:
-            #if new_line[0].find('Pedido') > 0:
-                ini = new_line[0].find('Orçamento')+13
-                #ini = new_line[0].find('Pedido')+10
+            
+            if new_line[0].find('Pedido') > 0:
+                ini = new_line[0].find('Pedido')+10
                 pedido =new_line[0][ini:]
                 
             if new_line[0].startswith('Cliente') > 0:
