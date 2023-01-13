@@ -119,8 +119,8 @@ def read_mail():
         if error == 'success':
             os.rename(os.path.join(dir_edi,edi_filename) , os.path.join(dir_edi,edi_filename+'_ok'))
 
-
-#Read new e-mails
-print('Start')
-read_mail()
-print('End!')
+if __name__ == '__main__':
+    #Read new e-mails
+    print('Start')
+    read_mail()
+    print('End!')
