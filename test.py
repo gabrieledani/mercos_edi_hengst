@@ -1,3 +1,4 @@
+'''
 from imap_tools import MailBox, AND
 
 # get unseen emails sent by good@some.xx from INBOX folder
@@ -14,6 +15,9 @@ with MailBox('mail.vedafil.com.br').login('pedidos@vedafil.com.br', 'Vdfil.2022'
         body = msg.html
         #print(body)
         html_file.write(body)
+'''
 
 
+import datetime
 
+print(datetime.datetime.now())

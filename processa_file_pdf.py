@@ -1,9 +1,11 @@
 from cleantext import clean
 import pdfplumber
 import os
-import time
+import datetime
 
-def processa_file(filename,dir_edi,dir_pdf):
+def processa_file(filename,dir_edi,dir_pdf,dir_log):
+    log_file = open(os.path.join(dir_log,'app_log.txt'),'a')
+
     if dir_pdf:
         pdf = pdfplumber.open(os.path.join(dir_pdf,filename))
     else:
@@ -62,7 +64,7 @@ def processa_file(filename,dir_edi,dir_pdf):
                 achou_produtos = 1
 
             if new_line[0].startswith('Condição de Pagamento'):
-                cond_pagto = new_line[0][24:]
+                cond_pagto = new_line[0][23:]
                 dt_emis = new_line[1][new_line[1].find(':')+2:]
 
             if new_line[0].startswith('Ordem de Compra'):
@@ -75,8 +77,10 @@ def processa_file(filename,dir_edi,dir_pdf):
 
             if new_line[0].startswith('Todos os valores'):
                 #cria arquivo do EDI
-                print('cria arquivo '+'EXPORTA_PEDIDO_HENGST_'+cliente+'_'+pedido+'.dir')
+                #print('cria arquivo '+'EXPORTA_PEDIDO_HENGST_'+cliente+'_'+pedido+'.dir')
+                #log_file.write(datetime.datetime.now+'--cria arquivo '+'EXPORTA_PEDIDO_HENGST_'+cliente+'_'+pedido+'.dir')
                 edi_filename = 'EXPORTA_PEDIDO_HENGST_'+cliente+'_'+pedido+'.dir'
+                log_file.write(str(datetime.datetime.now())+edi_filename+'\n')
                 edi_arquivo = open(os.path.join(dir_edi,edi_filename),'w')
 
                 #cria linha e identificação do cliente
