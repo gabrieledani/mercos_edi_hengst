@@ -125,3 +125,4 @@ def processa_file(filename,dir_edi,dir_pdf):
                 dt_emis = ''
                 achou_produtos = 0
     pdf.close()
+    return edi_filename
